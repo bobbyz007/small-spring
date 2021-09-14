@@ -7,7 +7,7 @@ import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProxyBeanFactory implements FactoryBean<IUserDao> {
+public class ProxyFactoryBean implements FactoryBean<IUserDao> {
 
     @Override
     public IUserDao getObject() throws Exception {

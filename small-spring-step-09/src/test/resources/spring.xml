@@ -8,6 +8,6 @@
         <property name="userDao" ref="proxyUserDao"/>
     </bean>
 
-    <bean id="proxyUserDao" class="cn.bugstack.springframework.test.bean.ProxyBeanFactory"/>
+    <bean id="proxyUserDao" class="cn.bugstack.springframework.test.bean.ProxyFactoryBean"/>
 
 </beans>
