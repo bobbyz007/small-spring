@@ -1,5 +1,6 @@
 package cn.bugstack.springframework.test.bean;
 
+import cn.bugstack.springframework.context.annotation.Scope;
 import cn.bugstack.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -9,7 +10,8 @@ import java.util.Random;
  * 公众号：bugstack虫洞栈
  * Create by 小傅哥(fustack)
  */
-@Component("userService")
+@Component("userService2")
+@Scope("singleton")
 public class UserService implements IUserService {
 
     private String token;

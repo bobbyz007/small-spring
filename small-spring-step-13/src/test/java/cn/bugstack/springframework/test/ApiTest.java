@@ -19,7 +19,9 @@ public class ApiTest {
     @Test
     public void test_scan() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-scan.xml");
-        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+        IUserService userService = applicationContext.getBean("userService2", IUserService.class);
+        IUserService userService2 = applicationContext.getBean("userService2", IUserService.class);
+        System.out.println("scope: " + (userService == userService2 ? "singleton" : "prototype"));
         System.out.println("测试结果：" + userService.queryUserInfo());
     }
 
