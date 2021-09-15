@@ -4,7 +4,7 @@ import cn.bugstack.springframework.aop.AdvisedSupport;
 import cn.bugstack.springframework.aop.MethodMatcher;
 import cn.bugstack.springframework.aop.TargetSource;
 import cn.bugstack.springframework.aop.aspectj.AspectJExpressionPointcut;
-import cn.bugstack.springframework.aop.framework.Cglib2AopProxy;
+import cn.bugstack.springframework.aop.framework.CglibAopProxy;
 import cn.bugstack.springframework.aop.framework.JdkDynamicAopProxy;
 import cn.bugstack.springframework.aop.framework.ReflectiveMethodInvocation;
 import cn.bugstack.springframework.test.bean.IUserService;
@@ -51,7 +51,7 @@ public class ApiTest {
         System.out.println("测试结果：" + proxy_jdk.queryUserInfo());
 
         // 代理对象(Cglib2AopProxy)
-        IUserService proxy_cglib = (IUserService) new Cglib2AopProxy(advisedSupport).getProxy();
+        IUserService proxy_cglib = (IUserService) new CglibAopProxy(advisedSupport).getProxy();
         // 测试调用
         System.out.println("测试结果：" + proxy_cglib.register("花花"));
     }
@@ -60,7 +60,8 @@ public class ApiTest {
     public void test_proxy_class() {
         IUserService userService = (IUserService) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]{IUserService.class}, (proxy, method, args) -> "你被代理了！");
         String result = userService.queryUserInfo();
-        System.out.println("测试结果：" + result);
+        String result2 = userService.register("test");
+        System.out.println("测试结果：" + result + ", " + result2);
 
     }
 

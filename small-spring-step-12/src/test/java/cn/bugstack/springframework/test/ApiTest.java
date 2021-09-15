@@ -90,7 +90,11 @@ public class ApiTest {
     public void test_aop() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
 
+        // 创建UserService对象时，与定义的PointcutAdvisor吻合，则会生成xml中定义的UserService对象的代理。
         IUserService userService = applicationContext.getBean("userService", IUserService.class);
+
+        // 此时userService是一个代理对象
+        System.out.println("proxy: " + userService.getClass());
         System.out.println("测试结果：" + userService.queryUserInfo());
     }
 

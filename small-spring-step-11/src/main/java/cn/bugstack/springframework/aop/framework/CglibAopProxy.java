@@ -17,11 +17,11 @@ import java.lang.reflect.Method;
  * configured by an AdvisedSupport object. This class is internal
  * to Spring's AOP framework and need not be used directly by client code.
  */
-public class Cglib2AopProxy implements AopProxy {
+public class CglibAopProxy implements AopProxy {
 
     private final AdvisedSupport advised;
 
-    public Cglib2AopProxy(AdvisedSupport advised) {
+    public CglibAopProxy(AdvisedSupport advised) {
         this.advised = advised;
     }
 
