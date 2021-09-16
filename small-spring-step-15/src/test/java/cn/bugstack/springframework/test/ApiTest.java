@@ -5,9 +5,9 @@ import cn.bugstack.springframework.test.bean.IUserService;
 import org.junit.Test;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ * 给代理对象的属性设置值
+ * 即解析填充完Bean的属性后 再返回代理。 所以代理逻辑实现是放在BeanPostProcessor：DefaultAdvisorAutoProxyCreator的
+ * 方法 postProcessAfterInitialization ，即等bean初始化好后，再去判断是否要生成代理对象
  */
 public class ApiTest {
 
