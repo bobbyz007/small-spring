@@ -49,12 +49,26 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         Object singletonObject = singletonObjects.get(beanName);
         if (null == singletonObject) {
             singletonObject = earlySingletonObjects.get(beanName);
-            // 判断二级缓存中是否有对象，这个对象就是代理对象，因为只有代理对象才会放到三级缓存中
+            // 判断二级缓存中是否有对象，如果没有，则表示需要从三级缓存的factory中生成，
             if (null == singletonObject) {
                 ObjectFactory<?> singletonFactory = singletonFactories.get(beanName);
+                // 如果三级缓存的factory中也没有，则表示对应的beanname还没有创建，则在后面调用createBean方法时会调用
+                // this.addSingletonFactory 方法加入到singletonFactories 中
+                // 比如对于 A与B的循环依赖，流程时序如下
+                // 1. 创建A时， AbstractBeanFactory.doGetBean方法会调用此方法，A加入到 singletonFactories
+                // 2. 给A填充属性（调用AbstractAutowireCapableBeanFactory.applyPropertyValues），会触发创建B
+                // 3. 创建B时， AbstractBeanFactory.doGetBean方法会调用此方法，B加入到 singletonFactories
+                // 4. 给B填充属性（调用AbstractAutowireCapableBeanFactory.applyPropertyValues），会触发创建A
+                //    此时进入本方法发现 singletonFactories 中的A不为空，则直接取出A对象，避免递归死循环，A加入到二级缓存中。
+                // 5. B的属性填充完成后， 又会调用本方法获取对象B，类似地，此时进入本方法发现 singletonFactories 中的B不为空，
+                //    则直接取出B对象，避免递归死循环，把B加入到二级缓存中。
+                // 6. 此时B初始化完成，调用 registerSingleton()方法，把B对象从二级缓存移动到一级缓存。
+                // 7. B创建完成，回到步骤2， A的属性填充完成，类似地， 又会继续调用本方法获取A，把已经在二级缓存的A 移动到一级缓存。
+
+                // 总结： 对象刚实例化后即保存到map映射表中，后续涉及引用时直接查表，防止递归循环调用。
                 if (singletonFactory != null) {
                     singletonObject = singletonFactory.getObject();
-                    // 把三级缓存中的代理对象中的真实对象获取出来，放入二级缓存中
+                    // 把三级缓存中的factory对象生成的真实对象获取出来，放入二级缓存中
                     earlySingletonObjects.put(beanName, singletonObject);
                     singletonFactories.remove(beanName);
                 }

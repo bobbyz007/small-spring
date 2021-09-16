@@ -5,9 +5,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ * 示例（演示spring解决原理）：
+ * 解决循坏依赖的思路：对象实例化后即放入缓存中， 属性注入时直接从缓存中取，而不是递归调用getBean方法
  */
 public class CircleTest {
 

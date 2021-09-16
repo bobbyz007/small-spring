@@ -6,15 +6,15 @@ import cn.bugstack.springframework.test.bean.Wife;
 import org.junit.Test;
 
 /**
- * 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
- * 公众号：bugstack虫洞栈
- * Create by 小傅哥(fustack)
+ * 解决循坏依赖：DefaultSingletonBeanRegistry的getSingleton方法处理的三级缓存
  */
 public class ApiTest {
 
     @Test
     public void test_circular() {
+        // 基于缓存如何解决而循环依赖问题
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+
         Husband husband = applicationContext.getBean("husband", Husband.class);
         Wife wife = applicationContext.getBean("wife", Wife.class);
         System.out.println("老公的媳妇：" + husband.queryWife());

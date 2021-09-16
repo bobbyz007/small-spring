@@ -98,7 +98,8 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
 
     @Override
     public PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeansException {
-        return pvs;
+        // 不需要重复添加
+        return null;
     }
 
 }
